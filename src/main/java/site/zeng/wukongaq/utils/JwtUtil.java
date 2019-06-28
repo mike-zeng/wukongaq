@@ -5,6 +5,9 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.remoting.jaxws.JaxWsSoapFaultException;
 
 import java.util.*;
 
@@ -16,6 +19,7 @@ import java.util.*;
  */
 public class JwtUtil {
 
+    private static Logger logger= LoggerFactory.getLogger(JwtUtil.class);
     /**
      * token秘钥,不能泄露
      */
@@ -58,13 +62,13 @@ public class JwtUtil {
      * @param token token值
      * @return 返回token中的信息
      */
-    private   static Map<String, Claim> verifyToken(String token){
+    private static Map<String, Claim> verifyToken(String token){
         DecodedJWT jwt=null;
         try {
             JWTVerifier verifier=JWT.require(Algorithm.HMAC256(SECRET)).build();
             jwt=verifier.verify(token);
-        }catch (Exception e){
-            //校验失败
+        }catch (JaxWsSoapFaultException e){
+            logger.warn(e.getMessage());
         }
         if (jwt==null){
             return null;
@@ -79,6 +83,7 @@ public class JwtUtil {
      */
     public static Integer getId(String token){
         Map<String,Claim> map=JwtUtil.verifyToken(token);
-        return Integer.valueOf(map.get("id").asString());
+        int uid=map.get("id").asInt();
+        return uid;
     }
 }
