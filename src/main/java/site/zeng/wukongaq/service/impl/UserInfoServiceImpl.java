@@ -57,9 +57,9 @@ public class UserInfoServiceImpl implements UserInfoService {
         UserInfo u=getUserInfoById(userInfo.getId());
         Date now=new Date();
         //如果修改30天内已经修改资料，则不允许修改
-        if ((now.getTime()-u.getUpdateTime().getTime())<=TERM){
-            throw new UserInfoException(UserInfoException.MODIFY_USERINFO_FREQUENTLY);
-        }
+//        if ((now.getTime()-u.getUpdateTime().getTime())<=TERM){
+//            throw new UserInfoException(UserInfoException.MODIFY_USERINFO_FREQUENTLY);
+//        }
         try {
             userInfo.setApproval(null);
             userInfo.setFans(null);

@@ -2,7 +2,6 @@ package site.zeng.wukongaq.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -14,10 +13,14 @@ import redis.clients.jedis.JedisPool;
 @Component
 public class RedisClient{
 
-    @Autowired
-    private JedisPool jedisPool;
+    private final JedisPool jedisPool;
 
     Logger logger= LoggerFactory.getLogger(RedisClient.class);
+
+    public RedisClient(JedisPool jedisPool) {
+        this.jedisPool = jedisPool;
+    }
+
     public Jedis getRedis(){
         Jedis jedis = null;
         if (jedisPool != null) {

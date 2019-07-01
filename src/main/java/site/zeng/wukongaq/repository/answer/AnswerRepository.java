@@ -15,4 +15,6 @@ public interface AnswerRepository  extends  PagingAndSortingRepository<Answer,In
     void deleteByIdAndUid(Integer id,Integer uid);
 
     Page<Answer> findAllByPid(Integer pid, Pageable pageable);
+
+    Answer findByIdAndUid(Integer id,Integer uid);
 }
